@@ -36,8 +36,6 @@ export default function Routes() {
     setIsFirstTime(false);
   }
 
-  console.log(isFirstTime);
-
   if (isFirstTime === null) {
     return null;
   }
