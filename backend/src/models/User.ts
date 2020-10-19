@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import bcrypt from 'bcryptjs';
 
 @Entity('users')
 export default class User {
@@ -13,4 +14,8 @@ export default class User {
 
   @Column()
   password: string;
+
+  async checkPassword(password: string) {
+    return bcrypt.compare(password, this.password);
+  }
 }
