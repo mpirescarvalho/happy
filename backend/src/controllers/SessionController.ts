@@ -25,11 +25,18 @@ export default {
     });
 
     if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+      return res
+        .status(401)
+        .json({ message: 'User not found', errors: { email: true } });
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res
+        .status(401)
+        .json({
+          message: 'Password does not match',
+          errors: { password: true },
+        });
     }
 
     return res.json({
