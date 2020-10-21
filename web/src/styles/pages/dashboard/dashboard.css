@@ -6,4 +6,40 @@
   flex: 1;
   margin-left: 100px;
   height: 150vh;
+  padding: 64px 112px;
+}
+
+#page-dashboard main header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #d3e2e5;
+  margin-bottom: 40px;
+}
+
+#page-dashboard main header h1 {
+  color: #4d6f80;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#page-dashboard main header span {
+  color: #8fa7b2;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+#page-dashboard .orphanages-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  #page-dashboard .orphanages-list {
+    grid-template-columns: 1fr;
+  }
 }
