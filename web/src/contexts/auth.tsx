@@ -68,6 +68,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   async function signOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     setUser(null);
   }
 

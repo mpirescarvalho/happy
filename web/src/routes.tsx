@@ -20,7 +20,7 @@ const Routes = () => (
       <Route path="/orphanages/:id" component={Orphanage} />
 
       <Route path="/dashboard/login" component={Login} />
-      <PrivateRoute path="/dashboard/" component={Dashboard} />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
     </Switch>
   </BrowserRouter>
 );

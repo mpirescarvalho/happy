@@ -1,0 +1,9 @@
+#page-dashboard {
+  display: flex;
+}
+
+#page-dashboard main {
+  flex: 1;
+  margin-left: 100px;
+  height: 150vh;
+}
