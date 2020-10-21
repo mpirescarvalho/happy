@@ -1,11 +1,11 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import dashboardLogoImg from '../../images/dashboard-logo.svg';
 import checkmarkImg from '../../images/checkmark.svg';
 
-import api from '../../services/api';
+import useAuth from '../../contexts/auth';
 
 import '../../styles/pages/dashboard/login.css';
 
@@ -15,25 +15,30 @@ export default function Login() {
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const [errors, setErrors] = useState({ email: false, password: false });
 
+  const { loading, signIn, user } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!loading && user) {
+      history.push('/dashboard');
+    }
+  }, [loading, user, history]);
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setErrors({ email: false, password: false });
 
-    const data = {
-      email,
-      password,
-    };
-
     try {
-      const response = await api.post('/session', data, {});
-
-      console.log(response);
-
-      alert('success');
+      await signIn(email, password, stayLoggedIn);
+      history.push('/dashboard');
     } catch (err) {
       setErrors(err.response.data.errors);
       console.error(err.response.status, err.response.data);
     }
+  }
+
+  if (loading || user) {
+    return null;
   }
 
   return (
