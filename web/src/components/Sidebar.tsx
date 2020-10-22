@@ -12,9 +12,10 @@ import '../styles/components/sidebar.css';
 
 interface SidebarProps {
   navButtons?: boolean;
+  pendingBadge?: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ navButtons }) => {
+const Sidebar: React.FC<SidebarProps> = ({ navButtons, pendingBadge }) => {
   const history = useHistory();
   const auth = useAuth();
   const query = useQuery();
@@ -40,7 +41,12 @@ const Sidebar: React.FC<SidebarProps> = ({ navButtons }) => {
           <FiMapPin size={24} />
         </Link>
 
-        <Link to="/dashboard?pending=true" className={`${pending && 'active'}`}>
+        <Link
+          to="/dashboard?pending=true"
+          className={`${pending && 'active'} ${
+            pendingBadge && 'pending-badge'
+          }`}
+        >
           <FiAlertCircle size={24} />
         </Link>
       </div>

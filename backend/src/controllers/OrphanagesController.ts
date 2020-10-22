@@ -11,13 +11,9 @@ export default {
 
     const { pending } = req.query;
 
-    let where = {};
-
-    if (pending) {
-      where = {
-        pending: true,
-      };
-    }
+    let where = {
+      pending: pending === 'true',
+    };
 
     const orphanages = await orphanagesRepository.find({
       relations: ['images'],

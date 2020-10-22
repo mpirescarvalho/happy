@@ -6,15 +6,23 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import mapIcon from '../utils/mapIcon';
 import '../styles/components/orphanage-list-item.css';
 
-interface OrphanageListItemProps {
-  pending?: boolean;
+export interface Orphanage {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  pending: boolean;
 }
 
-const OrphanageListItem: React.FC<OrphanageListItemProps> = ({ pending }) => {
+interface OrphanageListItemProps {
+  orphanage: Orphanage;
+}
+
+const OrphanageListItem: React.FC<OrphanageListItemProps> = ({ orphanage }) => {
   return (
     <li className="orphanage-list-item">
       <Map
-        center={[-11.3024798, -41.8589281]}
+        center={[orphanage.latitude, orphanage.longitude]}
         zoom={16}
         style={{ width: '100%', flex: '1', borderRadius: '20px' }}
         dragging={false}
@@ -27,15 +35,15 @@ const OrphanageListItem: React.FC<OrphanageListItemProps> = ({ pending }) => {
         <Marker
           interactive={false}
           icon={mapIcon}
-          position={[-11.3024798, -41.8589281]}
+          position={[orphanage.latitude, orphanage.longitude]}
         />
       </Map>
 
       <footer>
-        <strong>Orf. Esperança</strong>
+        <strong>{orphanage.name}</strong>
 
         <div className="buttons">
-          {pending ? (
+          {orphanage.pending ? (
             <button type="button">
               <FiArrowRight size={24} color="#15C3D6" />
             </button>

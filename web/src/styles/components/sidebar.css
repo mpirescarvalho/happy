@@ -40,6 +40,22 @@ aside.app-sidebar button {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+}
+
+aside.app-sidebar a.pending-badge::after,
+aside.app-sidebar button.pending-badge::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  border: 2px solid #12afcb;
+  background: #ffd666;
+  transition: all 0.2s;
 }
 
 aside.app-sidebar a svg,
@@ -52,9 +68,20 @@ aside.app-sidebar button.active {
   background: #ffd666;
 }
 
+aside.app-sidebar a.active.pending-badge::after,
+aside.app-sidebar button.active.pending-badge::after {
+  border-color: #ffd666;
+  background: #fff;
+}
+
 aside.app-sidebar a.active:hover,
 aside.app-sidebar button.active:hover {
   background: #eec44f;
+}
+
+aside.app-sidebar a.active.pending-badge:hover::after,
+aside.app-sidebar button.active.pending-badge:hover::after {
+  border-color: #eec44f;
 }
 
 aside.app-sidebar a.active svg,
@@ -65,4 +92,9 @@ aside.app-sidebar button.active svg {
 aside.app-sidebar a:hover,
 aside.app-sidebar button:hover {
   background: #17d6eb;
+}
+
+aside.app-sidebar a.pending-badge:hover::after,
+aside.app-sidebar button.pending-badge:hover::after {
+  border-color: #17d6eb;
 }
