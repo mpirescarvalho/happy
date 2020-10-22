@@ -8,8 +8,19 @@ export default {
   async index(req: Request, res: Response) {
     const orphanagesRepository = getRepository(Orphanage);
 
+    const { pending } = req.query;
+
+    let where = {};
+
+    if (pending) {
+      where = {
+        pending: true,
+      };
+    }
+
     const orphanages = await orphanagesRepository.find({
       relations: ['images'],
+      where,
     });
 
     return res.json(orphanageView.renderMany(orphanages));
@@ -54,6 +65,7 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends: open_on_weekends === 'true',
+      pending: true,
       images,
     };
 
