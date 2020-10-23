@@ -56,7 +56,7 @@ export default function CreateOrphanage() {
 
     alert('Cadastro realizado com sucesso');
 
-    history.push('/app');
+    history.push('/orphanages/created');
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {

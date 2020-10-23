@@ -1,0 +1,66 @@
+#page-orphanage-created {
+  width: 100vw;
+  height: 100vh;
+  background: #37c77f;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-orphanage-created main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-orphanage-created main h1 {
+  font-size: 80px;
+  font-weight: 800;
+}
+
+#page-orphanage-created main p {
+  font-size: 32px;
+  font-weight: 600;
+  margin-top: 32px;
+  text-align: center;
+}
+
+#page-orphanage-created .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 64px;
+  gap: 24px;
+}
+
+#page-orphanage-created .buttons a {
+  width: 243px;
+  height: 64px;
+
+  background: #31b272;
+  border-radius: 20px;
+
+  outline: 0;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-orphanage-created .buttons a:hover {
+  background: #25a364;
+}
+
+#page-orphanage-created img {
+  margin-left: 120px;
+}
