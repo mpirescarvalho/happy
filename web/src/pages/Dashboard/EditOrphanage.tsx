@@ -10,6 +10,8 @@ import { LeafletMouseEvent } from 'leaflet';
 import { useHistory, useParams } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
+import { VscError } from 'react-icons/vsc';
+import { BiCheck } from 'react-icons/bi';
 
 import Sidebar from '../../components/Sidebar';
 import mapIcon from '../../utils/mapIcon';
@@ -50,6 +52,7 @@ const EditOrphanage: React.FC = () => {
   const [opening_hours, setOpeningHours] = useState('');
   const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<File[]>([]);
+  const [pending, setPending] = useState(false);
 
   const previewImages = useMemo(
     () => images.map(image => URL.createObjectURL(image)),
@@ -84,6 +87,7 @@ const EditOrphanage: React.FC = () => {
       setOpeningHours(orphanage.opening_hours);
       setOpenOnWeekends(orphanage.open_on_weekends);
       setImages(orphanageImages);
+      setPending(orphanage.pending);
     });
   }, [params.id]);
 
@@ -110,6 +114,7 @@ const EditOrphanage: React.FC = () => {
     data.append('instructions', instructions);
     data.append('opening_hours', opening_hours);
     data.append('open_on_weekends', String(open_on_weekends));
+    data.append('pending', 'false');
 
     images.forEach(image => {
       data.append('images', image);
@@ -120,6 +125,12 @@ const EditOrphanage: React.FC = () => {
     alert('Orfanato atualizado com sucesso');
 
     history.goBack();
+  }
+
+  function handleRefuse() {
+    history.push(`/dashboard/orphanages/${params.id}/delete`, {
+      from: 'edit-orphanage',
+    });
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
@@ -262,9 +273,22 @@ const EditOrphanage: React.FC = () => {
             </div>
           </fieldset>
 
-          <button className="confirm-button" type="submit">
-            Confirmar
-          </button>
+          {!pending && (
+            <button className="confirm-button" type="submit">
+              Confirmar
+            </button>
+          )}
+
+          {pending && (
+            <div className="pending-buttons">
+              <button onClick={handleRefuse} id="refuse" type="button">
+                <VscError size={24} color="#fff" /> Recusar
+              </button>
+              <button onClick={handleSubmit} id="accept" type="button">
+                <BiCheck size={24} color="#fff" /> Aceitar
+              </button>
+            </div>
+          )}
         </form>
       </main>
     </div>

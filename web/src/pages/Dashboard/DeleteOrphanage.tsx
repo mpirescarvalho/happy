@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -11,14 +11,32 @@ interface DeleteOrphanageParams {
   id: string;
 }
 
+interface DeleteOrphanageState {
+  from?: string;
+}
+
+interface Orphanage {
+  name: string;
+}
+
 const DeleteOrphanage: React.FC = () => {
+  const [orphanage, setOrphanage] = useState<Orphanage | undefined>();
   const params = useParams<DeleteOrphanageParams>();
+  const location = useLocation<DeleteOrphanageState>();
   const history = useHistory();
+
+  useEffect(() => {
+    api.get(`orphanages/${params.id}`).then(res => setOrphanage(res.data));
+  }, [params.id]);
 
   async function handleConfirm() {
     const res = await api.delete(`orphanages/${params.id}`);
     if (res.status === 200) {
-      history.goBack();
+      if (location.state && location.state.from === 'edit-orphanage') {
+        history.go(-2);
+      } else {
+        history.goBack();
+      }
     } else {
       alert('Erro ao excluir orfanato');
       console.error(res.data);
@@ -31,7 +49,7 @@ const DeleteOrphanage: React.FC = () => {
         <h1>Excluir!</h1>
         <p>
           Você tem certeza que quer <br />
-          excluir Orf. Esperança?
+          excluir {orphanage?.name || 'o orfanato'}?
         </p>
 
         <div className="buttons">
