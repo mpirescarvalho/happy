@@ -2,6 +2,7 @@ import React from 'react';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { FiEdit3, FiArrowRight } from 'react-icons/fi';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import mapIcon from '../utils/mapIcon';
 import '../styles/components/orphanage-list-item.css';
@@ -44,18 +45,18 @@ const OrphanageListItem: React.FC<OrphanageListItemProps> = ({ orphanage }) => {
 
         <div className="buttons">
           {orphanage.pending ? (
-            <button type="button">
+            <Link to={`/dashboard/orphanages/${orphanage.id}`}>
               <FiArrowRight size={24} color="#15C3D6" />
-            </button>
+            </Link>
           ) : (
             <>
-              <button type="button">
+              <Link to={`/dashboard/orphanages/${orphanage.id}`}>
                 <FiEdit3 size={24} color="#15C3D6" />
-              </button>
+              </Link>
 
-              <button type="button">
+              <Link to={`/dashboard/orphanages/${orphanage.id}/delete`}>
                 <AiOutlineDelete size={24} color="#15C3D6" />
-              </button>
+              </Link>
             </>
           )}
         </div>

@@ -7,8 +7,10 @@ import Landing from './pages/Landing';
 import OrphanagesMap from './pages/OrphanagesMap';
 import Orphanage from './pages/Orphanage';
 import CreateOrphanage from './pages/CreateOrphanage';
+
 import Login from './pages/Dashboard/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
+import DeleteOrphanage from './pages/Dashboard/DeleteOrphanage';
 
 const Routes = () => (
   <BrowserRouter>
@@ -20,7 +22,11 @@ const Routes = () => (
       <Route path="/orphanages/:id" component={Orphanage} />
 
       <Route path="/dashboard/login" component={Login} />
-      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute exact path="/dashboard" component={Dashboard} />
+      <PrivateRoute
+        path="/dashboard/orphanages/:id/delete"
+        component={DeleteOrphanage}
+      />
     </Switch>
   </BrowserRouter>
 );

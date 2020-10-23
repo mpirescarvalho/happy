@@ -1,0 +1,73 @@
+#page-delete-orphanage {
+  width: 100vw;
+  height: 100vh;
+  background: #ff669d;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-delete-orphanage main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-delete-orphanage main h1 {
+  font-size: 80px;
+  font-weight: 800;
+}
+
+#page-delete-orphanage main p {
+  font-size: 32px;
+  font-weight: 600;
+  margin-top: 32px;
+  text-align: center;
+}
+
+#page-delete-orphanage .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 64px;
+  gap: 24px;
+}
+
+#page-delete-orphanage .buttons button {
+  width: 243px;
+  height: 64px;
+  color: #fff;
+
+  border-radius: 20px;
+
+  outline: 0;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+#page-delete-orphanage .buttons button#cancel {
+  background: #31b272;
+}
+
+#page-delete-orphanage .buttons button#cancel:hover {
+  background: #37c47d;
+}
+
+#page-delete-orphanage .buttons button#confirm {
+  background: #d6487b;
+}
+
+#page-delete-orphanage .buttons button#confirm:hover {
+  background: #ec4f89;
+}
+
+#page-delete-orphanage img {
+  margin-left: 120px;
+}
