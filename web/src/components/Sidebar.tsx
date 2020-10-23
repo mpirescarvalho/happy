@@ -36,20 +36,22 @@ const Sidebar: React.FC<SidebarProps> = ({ navButtons, pendingBadge }) => {
     <aside className="app-sidebar">
       <img src={mapMarkerImg} alt="Happy" />
 
-      <div className="nav-buttons">
-        <Link to="/dashboard" className={`${dashboard && 'active'}`}>
-          <FiMapPin size={24} />
-        </Link>
+      {navButtons && (
+        <div className="nav-buttons">
+          <Link to="/dashboard" className={`${dashboard && 'active'}`}>
+            <FiMapPin size={24} />
+          </Link>
 
-        <Link
-          to="/dashboard?pending=true"
-          className={`${pending && 'active'} ${
-            pendingBadge && 'pending-badge'
-          }`}
-        >
-          <FiAlertCircle size={24} />
-        </Link>
-      </div>
+          <Link
+            to="/dashboard?pending=true"
+            className={`${pending && 'active'} ${
+              pendingBadge && 'pending-badge'
+            }`}
+          >
+            <FiAlertCircle size={24} />
+          </Link>
+        </div>
+      )}
 
       <footer>
         <button type="button" onClick={handleDashboardFooterButtonClick}>

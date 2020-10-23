@@ -11,6 +11,7 @@ import CreateOrphanage from './pages/CreateOrphanage';
 import Login from './pages/Dashboard/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import DeleteOrphanage from './pages/Dashboard/DeleteOrphanage';
+import EditOrphanage from './pages/Dashboard/EditOrphanage';
 
 const Routes = () => (
   <BrowserRouter>
@@ -23,6 +24,11 @@ const Routes = () => (
 
       <Route path="/dashboard/login" component={Login} />
       <PrivateRoute exact path="/dashboard" component={Dashboard} />
+      <PrivateRoute
+        exact
+        path="/dashboard/orphanages/:id"
+        component={EditOrphanage}
+      />
       <PrivateRoute
         path="/dashboard/orphanages/:id/delete"
         component={DeleteOrphanage}
