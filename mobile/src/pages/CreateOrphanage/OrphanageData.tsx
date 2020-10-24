@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   ScrollView,
   View,
   StyleSheet,
-  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -13,8 +12,6 @@ import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-
-import api from '../../services/api';
 
 interface OrphanageDataRouteParams {
   position: {
@@ -26,39 +23,16 @@ interface OrphanageDataRouteParams {
 export default function OrphanageData() {
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [opening_hours, setOpeningHours] = useState('');
-  const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<string[]>([]);
+
+  const formValid = useMemo(() => !!name && !!about && images.length > 0, [
+    name,
+    about,
+    images,
+  ]);
 
   const { params } = useRoute() as { params: OrphanageDataRouteParams };
   const navigation = useNavigation();
-
-  async function handleCreateOrphanage() {
-    const { latitude, longitude } = params.position;
-
-    const data = new FormData();
-
-    data.append('name', name);
-    data.append('about', about);
-    data.append('latitude', String(latitude));
-    data.append('longitude', String(longitude));
-    data.append('instructions', instructions);
-    data.append('opening_hours', opening_hours);
-    data.append('open_on_weekends', String(open_on_weekends));
-
-    images.forEach((image, index) => {
-      data.append('images', {
-        name: `image_${index}.jpg`,
-        type: 'image/jpg',
-        uri: image,
-      } as any);
-    });
-
-    await api.post('orphanages', data);
-
-    navigation.navigate('OrphanagesMap');
-  }
 
   async function handleSelectImages() {
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -83,12 +57,30 @@ export default function OrphanageData() {
     setImages([...images, image]);
   }
 
+  function handleGoToVisitationDataPage() {
+    navigation.navigate('OrphanageVisitation', {
+      position: params.position,
+      name,
+      about,
+      images,
+    });
+  }
+
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ padding: 24 }}
+      contentContainerStyle={{
+        padding: 24,
+        minHeight: '100%',
+      }}
     >
-      <Text style={styles.title}>Dados</Text>
+      <View style={styles.containerTitle}>
+        <Text style={styles.title}>Dados</Text>
+
+        <Text style={styles.pageIndicator}>
+          <Text style={styles.pageIndicatorCurrent}>01</Text> - 02
+        </Text>
+      </View>
 
       <Text style={styles.label}>Nome</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} />
@@ -120,35 +112,14 @@ export default function OrphanageData() {
         <Feather name="plus" size={24} color="#15B6D6" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Visitação</Text>
+      <View style={{ flex: 1 }} />
 
-      <Text style={styles.label}>Instruções</Text>
-      <TextInput
-        style={[styles.input, { height: 110 }]}
-        multiline
-        value={instructions}
-        onChangeText={setInstructions}
-      />
-
-      <Text style={styles.label}>Horario de visitas</Text>
-      <TextInput
-        style={styles.input}
-        value={opening_hours}
-        onChangeText={setOpeningHours}
-      />
-
-      <View style={styles.switchContainer}>
-        <Text style={styles.label}>Atende final de semana?</Text>
-        <Switch
-          thumbColor="#fff"
-          trackColor={{ false: '#ccc', true: '#39CC83' }}
-          value={open_on_weekends}
-          onValueChange={setOpenOnWeekends}
-        />
-      </View>
-
-      <RectButton style={styles.nextButton} onPress={handleCreateOrphanage}>
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
+      <RectButton
+        style={[styles.nextButton, formValid && styles.nextButtonEnabled]}
+        onPress={handleGoToVisitationDataPage}
+        enabled={formValid}
+      >
+        <Text style={styles.nextButtonText}>Próximo</Text>
       </RectButton>
     </ScrollView>
   );
@@ -159,25 +130,39 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  title: {
-    color: '#5c8599',
-    fontSize: 24,
-    fontFamily: 'Nunito_700Bold',
+  containerTitle: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+
     marginBottom: 32,
     paddingBottom: 24,
     borderBottomWidth: 0.8,
     borderBottomColor: '#D3E2E6',
   },
 
+  title: {
+    color: '#5c8599',
+    fontSize: 24,
+    fontFamily: 'Nunito_700Bold',
+  },
+
+  pageIndicator: {
+    color: '#8FA7B2',
+    fontSize: 12,
+    fontFamily: 'Nunito_600SemiBold',
+  },
+
+  pageIndicatorCurrent: {
+    color: '#5C8599',
+    fontSize: 12,
+    fontFamily: 'Nunito_800ExtraBold',
+  },
+
   label: {
     color: '#8fa7b3',
     fontFamily: 'Nunito_600SemiBold',
     marginBottom: 8,
-  },
-
-  comment: {
-    fontSize: 11,
-    color: '#8fa7b3',
   },
 
   input: {
@@ -216,20 +201,17 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
 
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 16,
-  },
-
   nextButton: {
-    backgroundColor: '#15c3d6',
+    backgroundColor: '#15C3D688',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     height: 56,
     marginTop: 32,
+  },
+
+  nextButtonEnabled: {
+    backgroundColor: '#15C3D6',
   },
 
   nextButtonText: {

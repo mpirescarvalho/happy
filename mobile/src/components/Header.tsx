@@ -4,6 +4,8 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+import { useHeader } from '../contexts/header';
+
 interface HeaderProps {
   title: string;
   showCancel?: boolean;
@@ -11,13 +13,16 @@ interface HeaderProps {
 
 export default function Header({ title, showCancel = true }: HeaderProps) {
   const navigation = useNavigation();
+  const [headerShown] = useHeader();
 
   function handleGoBackToAppHomePage() {
     navigation.navigate('OrphanagesMap');
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { display: headerShown ? 'flex' : 'none' }]}
+    >
       <BorderlessButton onPress={navigation.goBack}>
         <Feather name="arrow-left" size={24} color="#15b6d6" />
       </BorderlessButton>

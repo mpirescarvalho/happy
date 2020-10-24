@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
-
+import { View, StyleSheet, Dimensions, Text, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import MapView, { MapEvent, Marker } from 'react-native-maps';
 
+import { useHeader } from '../../contexts/header';
+
 import mapMarkerImg from '../../images/map-marker.png';
+import cursorImg from '../../images/cursor.png';
 
 export default function SelectMapPosition() {
   const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
+  const [instructionsVisible, setInstructionsVisible] = useState(true);
   const navigation = useNavigation();
+  const [, setHeaderShown] = useHeader();
 
   function handleNextStep() {
     navigation.navigate('OrphanageData', { position });
@@ -19,8 +24,31 @@ export default function SelectMapPosition() {
     setPosition(event.nativeEvent.coordinate);
   }
 
+  function handleInstructionsClick() {
+    setInstructionsVisible(false);
+    setHeaderShown(true);
+  }
+
   return (
     <View style={styles.container}>
+      {instructionsVisible && (
+        <LinearGradient
+          colors={['#15D6D6cc', '#15B6D6cc']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.instructionsOverlay}
+          onTouchEnd={handleInstructionsClick}
+        >
+          <Image source={cursorImg} />
+
+          <Text style={styles.instructionsOverlayText}>
+            Toque no mapa{'\n'}
+            para adicionar um{'\n'}
+            orfanato
+          </Text>
+        </LinearGradient>
+      )}
+
       <MapView
         initialRegion={{
           latitude: -11.3024798,
@@ -49,6 +77,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+  },
+
+  instructionsOverlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 20,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  instructionsOverlayText: {
+    marginTop: 24,
+    textAlign: 'center',
+
+    fontFamily: 'Nunito_800ExtraBold',
+    fontSize: 24,
+    color: '#FFF',
   },
 
   mapStyle: {

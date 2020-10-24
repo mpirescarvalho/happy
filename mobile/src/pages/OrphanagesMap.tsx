@@ -8,6 +8,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import mapMarker from '../images/map-marker.png';
 
 import api from '../services/api';
+import { useHeader } from '../contexts/header';
 
 interface Orphanage {
   id: number;
@@ -19,6 +20,7 @@ interface Orphanage {
 export default function OrphanagesMap() {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([]);
   const navigation = useNavigation();
+  const [, setHeaderShown] = useHeader();
 
   useFocusEffect(() => {
     api.get('orphanages').then(response => setOrphanages(response.data));
@@ -29,6 +31,7 @@ export default function OrphanagesMap() {
   }
 
   function handleNavigateToCreateOrphanage() {
+    setHeaderShown(false);
     navigation.navigate('SelectMapPosition');
   }
 

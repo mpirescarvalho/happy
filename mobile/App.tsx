@@ -7,6 +7,7 @@ import {
   Nunito_800ExtraBold,
 } from '@expo-google-fonts/nunito';
 
+import HeaderProvider from './src/contexts/header';
 import Routes from './src/routes';
 
 export default function App() {
@@ -20,5 +21,9 @@ export default function App() {
     return null;
   }
 
-  return <Routes />;
+  return (
+    <HeaderProvider>
+      <Routes />
+    </HeaderProvider>
+  );
 }
