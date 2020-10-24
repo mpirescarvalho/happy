@@ -15,6 +15,8 @@ import OrphanageDetails from './pages/OrphanageDetails';
 import SelectMapPosition from './pages/CreateOrphanage/SelectMapPosition';
 import OrphanageData from './pages/CreateOrphanage/OrphanageData';
 import OrphanageVisitation from './pages/CreateOrphanage/OrphanageVisitation';
+import OrphanageCreated from './pages/CreateOrphanage/OrphanageCreated';
+import CancelCreation from './pages/CreateOrphanage/CancelCreation';
 
 import Header from './components/Header';
 
@@ -72,7 +74,12 @@ export default function Routes() {
               component={SelectMapPosition}
               options={{
                 headerShown: true,
-                header: () => <Header title="Adicione um orfanato" />,
+                header: () => (
+                  <Header
+                    cancelConfirmation={true}
+                    title="Adicione um orfanato"
+                  />
+                ),
               }}
             />
 
@@ -81,7 +88,12 @@ export default function Routes() {
               component={OrphanageData}
               options={{
                 headerShown: true,
-                header: () => <Header title="Adicione um orfanato" />,
+                header: () => (
+                  <Header
+                    cancelConfirmation={true}
+                    title="Adicione um orfanato"
+                  />
+                ),
               }}
             />
 
@@ -90,9 +102,18 @@ export default function Routes() {
               component={OrphanageVisitation}
               options={{
                 headerShown: true,
-                header: () => <Header title="Adicione um orfanato" />,
+                header: () => (
+                  <Header
+                    cancelConfirmation={true}
+                    title="Adicione um orfanato"
+                  />
+                ),
               }}
             />
+
+            <Screen name="OrphanageCreated" component={OrphanageCreated} />
+
+            <Screen name="CancelCreation" component={CancelCreation} />
           </Navigator>
         )}
       </NavigationContainer>

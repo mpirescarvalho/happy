@@ -58,7 +58,10 @@ export default function OrphanageVisitation() {
 
     await api.post('orphanages', data);
 
-    navigation.navigate('OrphanagesMap');
+    navigation.reset({
+      index: 1,
+      routes: [{ name: 'OrphanagesMap' }, { name: 'OrphanageCreated' }],
+    });
   }
 
   return (

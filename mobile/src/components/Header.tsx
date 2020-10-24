@@ -9,14 +9,26 @@ import { useHeader } from '../contexts/header';
 interface HeaderProps {
   title: string;
   showCancel?: boolean;
+  cancelConfirmation?: boolean;
 }
 
-export default function Header({ title, showCancel = true }: HeaderProps) {
+export default function Header({
+  title,
+  showCancel = true,
+  cancelConfirmation = false,
+}: HeaderProps) {
   const navigation = useNavigation();
   const [headerShown] = useHeader();
 
   function handleGoBackToAppHomePage() {
-    navigation.navigate('OrphanagesMap');
+    if (cancelConfirmation) {
+      navigation.navigate('CancelCreation');
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'OrphanagesMap' }],
+      });
+    }
   }
 
   return (
